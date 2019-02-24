@@ -18,6 +18,10 @@ public class SuperHero {
     @JoinTable
     private List<Mission> Missions;
 
+    public SuperHero() {
+        this("", "", "");
+    }
+
     public SuperHero(String firstName, String lastName, String superHeroName) {
         Firstname = firstName;
         Lastname = lastName;

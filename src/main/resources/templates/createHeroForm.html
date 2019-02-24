@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Create Hero Form</title>
+</head>
+<body>
+    <form action="#" th:action="@{/createHero}" th:object="${superHero}" method="post">
+        <p>First Name: <input type="text" th:field="*{Firstname}" /></p>
+        <p>Last Name: <input type="text" th:field="*{Lastname}" /></p>
+        <p>Super Hero Name: <input type="text" th:field="*{Superheroname}" /></p>
+        <p><input type="submit" value="Create Hero" /> <input type="reset" value="Clear" /></p>
+    </form>
+    <a href="/">Home</a>
+</body>
+</html>

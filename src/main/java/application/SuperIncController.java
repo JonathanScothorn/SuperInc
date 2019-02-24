@@ -18,6 +18,9 @@ public class SuperIncController {
     @Autowired
     private MissionRepository missionRepository;
 
+    @Autowired
+    private SuperHeroRepository heroRepository;
+
     @GetMapping("/")
     public String homepage() {
         return "home";
@@ -36,11 +39,32 @@ public class SuperIncController {
     }
 
     @PostMapping("/createMissionCurl")
-    public String createMissionCurl(@RequestParam(name = "name", required = true) String name, Model model) {
+    public String createMissionCurl(@RequestParam(name = "name") String name, Model model) {
         Mission m = new Mission(name);
         missionRepository.save(m);
         model.addAttribute("name", name);
         return "createMission";
+    }
+
+    @GetMapping("/createHero")
+    public String createHeroForm(Model model) {
+        model.addAttribute("superHero", new SuperHero());
+        return "createHeroForm";
+    }
+
+    @PostMapping("/createHero")
+    public String createHero(@ModelAttribute SuperHero superHero) {
+        heroRepository.save(superHero);
+        return "createHero";
+    }
+
+    @PostMapping("/createHeroCurl")
+    public String createHeroCurl(@RequestParam String firstName, @RequestParam String lastName,
+                                 @RequestParam String heroName, Model model) {
+        SuperHero superHero = new SuperHero(firstName, lastName, heroName);
+        heroRepository.save(superHero);
+        model.addAttribute("superHero", superHero);
+        return "createHero";
     }
 
     @GetMapping("/missions")
