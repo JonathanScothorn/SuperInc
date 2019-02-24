@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Create Hero</title>
+</head>
+<body>
+<h1>Hero Created</h1>
+<p th:text="'Created hero with name: ' + ${superHero.Firstname} + ' ' + ${superHero.Lastname} + ' and hero name: ' + ${superHero.Superheroname}"/>
+<a href="/">Home</a>
+</body>
+</html>
