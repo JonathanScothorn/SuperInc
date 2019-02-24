@@ -1,7 +1,9 @@
 package application;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-public interface SuperHeroRepository extends CrudRepository<SuperHero, Long> {
+@RepositoryRestResource(collectionResourceRel = "heroes", path = "heroes")
+public interface SuperHeroRepository extends PagingAndSortingRepository<SuperHero, Long> {
 
 }

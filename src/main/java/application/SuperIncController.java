@@ -67,7 +67,7 @@ public class SuperIncController {
         return "createHero";
     }
 
-    @GetMapping("/missions")
+    @GetMapping("/showMissions")
     public String showMissions(Model model){
 
         List<Mission> missions = new ArrayList<Mission>();
