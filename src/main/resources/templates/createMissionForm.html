@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Create Mission Form</title>
+</head>
+<body>
+    <form action="#" th:action="@{/createMission}" th:object="${mission}" method="post">
+        <p>Mission Name: <input type="text" th:field="*{MissionName}" /></p>
+        <p><input type="submit" value="Create Mission" /> <input type="reset" value="Clear" /></p>
+    </form>
+    <a href="/">Home</a>
+</body>
+</html>

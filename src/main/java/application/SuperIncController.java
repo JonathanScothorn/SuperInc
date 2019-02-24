@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -15,16 +16,27 @@ import java.util.List;
 public class SuperIncController {
 
     @Autowired
-    MissionRepository missionRepository;
+    private MissionRepository missionRepository;
 
-    @GetMapping("/home")
-    public String test(@RequestParam(name = "input", required = false, defaultValue = "-") String input, Model model) {
-        model.addAttribute("input",input);
+    @GetMapping("/")
+    public String homepage() {
         return "home";
     }
 
+    @GetMapping("/createMission")
+    public String createMissionForm(Model model) {
+        model.addAttribute("mission", new Mission());
+        return "createMissionForm";
+    }
+
     @PostMapping("/createMission")
-    public String createMission(@RequestParam(name = "name", required = true) String name, Model model) {
+    public String createMission(@ModelAttribute Mission mission) {
+        missionRepository.save(mission);
+        return "createMission";
+    }
+
+    @PostMapping("/createMissionCurl")
+    public String createMissionCurl(@RequestParam(name = "name", required = true) String name, Model model) {
         Mission m = new Mission(name);
         missionRepository.save(m);
         model.addAttribute("name", name);
