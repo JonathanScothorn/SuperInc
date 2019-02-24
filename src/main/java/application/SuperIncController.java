@@ -39,10 +39,10 @@ public class SuperIncController {
     }
 
     @PostMapping("/createMissionCurl")
-    public String createMissionCurl(@RequestParam(name = "name") String name, Model model) {
-        Mission m = new Mission(name);
-        missionRepository.save(m);
-        model.addAttribute("name", name);
+    public String createMissionCurl(@RequestParam String name, Model model) {
+        Mission mission = new Mission(name);
+        missionRepository.save(mission);
+        model.addAttribute("mission", mission);
         return "createMission";
     }
 
