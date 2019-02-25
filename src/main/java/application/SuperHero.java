@@ -74,6 +74,10 @@ public class SuperHero {
         Missions.remove(mission);
     }
 
+    public List<Mission> getMissions() {
+        return Missions;
+    }
+
     @Override
     public String toString() {
         return String.format("SuperHero[id=%d, Firstname='%s', Lastname='%s', Superheroname='%s']",

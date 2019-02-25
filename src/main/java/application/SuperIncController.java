@@ -5,10 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -86,7 +83,7 @@ public class SuperIncController {
     }
 
     @PostMapping("/addMission")
-    public ResponseEntity<String> addMission(@RequestParam Long heroId, @RequestParam Long missionId, Model model) {
+    public ResponseEntity<String> addMission(@RequestParam Long heroId, @RequestParam Long missionId) {
 
         Optional<Mission> optM = missionRepository.findById(missionId);
         Optional<SuperHero> optH = heroRepository.findById(heroId);
@@ -113,7 +110,7 @@ public class SuperIncController {
     }
 
     @PostMapping("/removeMission")
-    public ResponseEntity<String> removeMission(@RequestParam Long heroId, @RequestParam Long missionId, Model model) {
+    public ResponseEntity<String> removeMission(@RequestParam Long heroId, @RequestParam Long missionId) {
 
         Optional<Mission> optM = missionRepository.findById(missionId);
         Optional<SuperHero> optH = heroRepository.findById(heroId);
@@ -142,6 +139,34 @@ public class SuperIncController {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid IDs entered.");
         }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteHero/{id}")
+    public ResponseEntity<String> deleteHero(@PathVariable Long id) {
+
+        Optional<SuperHero> optH = heroRepository.findById(id);
+        SuperHero hero;
+
+        if (optH.isPresent()) {
+            hero = optH.get();
+
+            if (hero.missionSize() == 0) {
+                heroRepository.delete(hero);
+            } else {
+                // delete references to and from the hero, avoiding concurrent modification exception
+                for (Iterator<Mission> iterator = hero.getMissions().iterator(); iterator.hasNext();) {
+                    Mission m = iterator.next();
+                    m.removeHero(hero);
+                    iterator.remove();
+                }
+                heroRepository.delete(hero);
+            }
+
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid hero ID");
+        }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
