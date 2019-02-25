@@ -169,4 +169,21 @@ public class SuperIncController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @DeleteMapping("/deleteMission/{id}")
+    public ResponseEntity<String> deleteMission(@PathVariable Long id) {
+
+        Optional<Mission> optM = missionRepository.findById(id);
+        Mission mission;
+
+        if (optM.isPresent()) {
+            mission = optM.get();
+            mission.setDeleted(true);
+            missionRepository.save(mission);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid mission ID");
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
 }
