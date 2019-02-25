@@ -26,8 +26,12 @@ public class SuperHero {
         Firstname = firstName;
         Lastname = lastName;
         Superheroname = superHeroName;
-        Missions = new ArrayList<Mission>();
+        Missions = new ArrayList<>();
 
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getSuperheroname() {
@@ -52,6 +56,22 @@ public class SuperHero {
 
     public void setFirstname(String firstname) {
         Firstname = firstname;
+    }
+
+    public int missionSize() {
+        return Missions.size();
+    }
+
+    public boolean hasMission(Mission mission) {
+        return Missions.contains(mission);
+    }
+
+    public void addMission(Mission mission) {
+        Missions.add(mission);
+    }
+
+    public void removeMission(Mission mission) {
+        Missions.remove(mission);
     }
 
     @Override
