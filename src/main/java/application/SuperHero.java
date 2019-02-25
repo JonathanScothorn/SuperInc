@@ -1,21 +1,33 @@
 package application;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@ApiModel(description = "Superhero data")
 public class SuperHero {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(notes = "Automatically generated Superhero ID")
     private Long id;
+
+    @ApiModelProperty(notes = "Hero's first name")
     private String Firstname;
+
+    @ApiModelProperty(notes = "Hero's last name")
     private String Lastname;
+
+    @ApiModelProperty(notes = "Hero's secret (or not so secret) identity")
     private String Superheroname;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable
+    @ApiModelProperty(notes = "List of missions the hero is on")
     private List<Mission> Missions;
 
     public SuperHero() {

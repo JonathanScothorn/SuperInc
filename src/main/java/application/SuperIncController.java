@@ -1,5 +1,8 @@
 package application;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@Api(value = "Super hero company management controller", description = "Operations pertaining to hero and mission management")
 public class SuperIncController {
 
     @Autowired
@@ -22,23 +26,27 @@ public class SuperIncController {
     @Autowired
     private SuperHeroRepository heroRepository;
 
-    @GetMapping("/")
+    @ApiOperation(value = "View the homepage")
+    @GetMapping(value = "/", produces = "text/html")
     public String homepage() {
         return "home";
     }
 
-    @GetMapping("/createMission")
+    @ApiOperation(value = "View create mission form")
+    @GetMapping(value = "/createMission", produces = "text/html")
     public String createMissionForm(Model model) {
         model.addAttribute("mission", new Mission());
         return "createMissionForm";
     }
 
-    @PostMapping("/createMission")
+    @ApiOperation(value = "Submit create mission form")
+    @PostMapping(value = "/createMission", produces = "text/html")
     public String createMission(@ModelAttribute Mission mission) {
         missionRepository.save(mission);
         return "createMission";
     }
 
+    @ApiOperation(value = "Create a new mission")
     @PostMapping("/createMissionCurl")
     public ResponseEntity<String> createMissionCurl(@RequestParam String name, Model model) {
         Mission mission = new Mission(name);
@@ -47,28 +55,34 @@ public class SuperIncController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/createHero")
+    @ApiOperation(value = "View create hero form")
+    @GetMapping(value = "/createHero", produces = "text/html")
     public String createHeroForm(Model model) {
         model.addAttribute("superHero", new SuperHero());
         return "createHeroForm";
     }
 
-    @PostMapping("/createHero")
+    @ApiOperation(value = "Submit create hero form")
+    @PostMapping(value = "/createHero", produces = "text/html")
     public String createHero(@ModelAttribute SuperHero superHero) {
         heroRepository.save(superHero);
         return "createHero";
     }
 
+    @ApiOperation(value = "Create a new superhero")
     @PostMapping("/createHeroCurl")
-    public ResponseEntity<String> createHeroCurl(@RequestParam String firstName, @RequestParam String lastName,
-                                                 @RequestParam String heroName, Model model) {
+    public ResponseEntity<String> createHeroCurl(@ApiParam(value = "Hero's first name") @RequestParam String firstName,
+                                                 @ApiParam(value = "Hero's last name") @RequestParam String lastName,
+                                                 @ApiParam(value = "Hero's superhero identity") @RequestParam String heroName,
+                                                 Model model) {
         SuperHero superHero = new SuperHero(firstName, lastName, heroName);
         heroRepository.save(superHero);
         model.addAttribute("superHero", superHero);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/showMissions")
+    @ApiOperation(value = "View mission page")
+    @GetMapping(value = "/showMissions", produces = "text/html")
     public String showMissions(Model model){
 
         List<Mission> missions = new ArrayList<>();
@@ -82,8 +96,10 @@ public class SuperIncController {
         return "showMissions";
     }
 
+    @ApiOperation(value = "Send a superhero on a mission")
     @PostMapping("/addMission")
-    public ResponseEntity<String> addMission(@RequestParam Long heroId, @RequestParam Long missionId) {
+    public ResponseEntity<String> addMission(@ApiParam(value = "Hero's ID number") @RequestParam Long heroId,
+                                             @ApiParam(value = "Mission's ID number") @RequestParam Long missionId) {
 
         Optional<Mission> optM = missionRepository.findById(missionId);
         Optional<SuperHero> optH = heroRepository.findById(heroId);
@@ -109,8 +125,10 @@ public class SuperIncController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Remove a superhero from a non-completed mission")
     @PostMapping("/removeMission")
-    public ResponseEntity<String> removeMission(@RequestParam Long heroId, @RequestParam Long missionId) {
+    public ResponseEntity<String> removeMission(@ApiParam(value = "Hero's ID number") @RequestParam Long heroId,
+            @ApiParam(value = "Mission's ID number, must not be already completed") @RequestParam Long missionId) {
 
         Optional<Mission> optM = missionRepository.findById(missionId);
         Optional<SuperHero> optH = heroRepository.findById(heroId);
@@ -142,8 +160,9 @@ public class SuperIncController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Delete a superhero")
     @DeleteMapping("/deleteHero/{id}")
-    public ResponseEntity<String> deleteHero(@PathVariable Long id) {
+    public ResponseEntity<String> deleteHero(@ApiParam(value = "The ID number of the hero to be deleted") @PathVariable Long id) {
 
         Optional<SuperHero> optH = heroRepository.findById(id);
         SuperHero hero;
@@ -170,8 +189,9 @@ public class SuperIncController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Soft delete a mission")
     @DeleteMapping("/deleteMission/{id}")
-    public ResponseEntity<String> deleteMission(@PathVariable Long id) {
+    public ResponseEntity<String> deleteMission(@ApiParam(value = "ID number of the mission to be deleted") @PathVariable Long id) {
 
         Optional<Mission> optM = missionRepository.findById(id);
         Mission mission;

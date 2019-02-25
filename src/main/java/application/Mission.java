@@ -1,5 +1,7 @@
 package application;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -8,18 +10,26 @@ import java.util.List;
 
 @Entity
 @Where(clause="is_deleted=false")
+@ApiModel(description = "Mission data")
 public class Mission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(notes = "Automatically generated Mission ID")
     private Long id;
+
+    @ApiModelProperty(notes = "Mission's Name")
     private String MissionName;
+
+    @ApiModelProperty(notes = "Boolean determining if the mission is active")
     private Boolean IsCompleted;
 
     @Column(name="is_deleted")
+    @ApiModelProperty(notes = "Boolean determining if the mission has been soft deleted")
     private Boolean IsDeleted;
 
     @ManyToMany(mappedBy = "Missions")
+    @ApiModelProperty(notes = "List of heroes who are on the mission")
     private List<SuperHero> Heroes;
 
     public Mission() {
