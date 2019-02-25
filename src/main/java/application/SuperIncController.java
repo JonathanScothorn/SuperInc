@@ -98,13 +98,13 @@ public class SuperIncController {
             superHero = optH.get();
 
             // if either already has a link to the other, something is wrong so do not continue the transaction
-            if (!superHero.hasMission(mission.getId()) && !mission.hasHero(superHero.getId())) {
+            if (!superHero.hasMission(mission) && !mission.hasHero(superHero)) {
                 superHero.addMission(mission);
                 mission.addHero(superHero);
                 missionRepository.save(mission);
                 heroRepository.save(superHero);
             } else {
-                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Mission-Hero link incorrect");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Mission-Hero link incorrect");
             }
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid IDs entered.");
@@ -127,13 +127,13 @@ public class SuperIncController {
                 superHero = optH.get();
 
                 // if either does not have a link to the other, something is wrong so do not continue the transaction
-                if (superHero.hasMission(mission.getId()) && mission.hasHero(superHero.getId())) {
+                if (superHero.hasMission(mission) && mission.hasHero(superHero)) {
                     superHero.removeMission(mission);
                     mission.removeHero(superHero);
                     missionRepository.save(mission);
                     heroRepository.save(superHero);
                 } else {
-                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Mission-Hero link incorrect");
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Mission-Hero link incorrect");
                 }
 
             } else {

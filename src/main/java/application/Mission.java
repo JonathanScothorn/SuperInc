@@ -60,13 +60,8 @@ public class Mission {
         return Heroes.size();
     }
 
-    public boolean hasHero(Long id) {
-        for (SuperHero h: Heroes) {
-            if (h.getId().equals(id)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean hasHero(SuperHero hero) {
+        return Heroes.contains(hero);
     }
 
     public void addHero(SuperHero hero) {

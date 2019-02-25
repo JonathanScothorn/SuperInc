@@ -62,13 +62,8 @@ public class SuperHero {
         return Missions.size();
     }
 
-    public boolean hasMission(Long id) {
-        for (Mission m: Missions) {
-            if (m.getId().equals(id)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean hasMission(Mission mission) {
+        return Missions.contains(mission);
     }
 
     public void addMission(Mission mission) {

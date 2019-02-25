@@ -69,7 +69,7 @@ public class MissionTest {
     public void hasHeroTest() {
         SuperHero hero = new SuperHero();
         mission.addHero(hero);
-        assertTrue(mission.hasHero(hero.getId()));
+        assertTrue(mission.hasHero(hero));
     }
 
     @Test
