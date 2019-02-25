@@ -8,18 +8,18 @@ import static org.junit.Assert.*;
 
 public class SuperHeroTest {
 
-    SuperHero hero;
-    String firstName = "Tony";
-    String lastName = "Stark";
-    String heroName = "Iron Man";
+    private SuperHero hero;
+    private String firstName = "Tony";
+    private String lastName = "Stark";
+    private String heroName = "Iron Man";
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         hero = new SuperHero(firstName, lastName, heroName);
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
     }
 
     @Test
@@ -56,6 +56,32 @@ public class SuperHeroTest {
         String rename = "James";
         hero.setFirstname(rename);
         assertEquals(rename, hero.getFirstname());
+    }
+
+    @Test
+    public void missionSizeTest() {
+        assertEquals(0, hero.missionSize());
+    }
+
+    @Test
+    public void addMissionTest() {
+        hero.addMission(new Mission());
+        assertEquals(1, hero.missionSize());
+    }
+
+    @Test
+    public void hasMissionTest() {
+        Mission mission = new Mission();
+        hero.addMission(mission);
+        assertTrue(hero.hasMission(mission.getId()));
+    }
+
+    @Test
+    public void removeMissionTest() {
+        Mission mission = new Mission();
+        hero.addMission(mission);
+        hero.removeMission(mission);
+        assertEquals(0, hero.missionSize());
     }
 
     @Test

@@ -8,16 +8,16 @@ import static org.junit.Assert.*;
 
 public class MissionTest {
 
-    Mission mission;
-    String name = "Design new suit";
+    private Mission mission;
+    private String name = "Design new suit";
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         mission = new Mission(name);
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
     }
 
     @Test
@@ -52,6 +52,32 @@ public class MissionTest {
     public void setCompletedTest() {
         mission.setCompleted(true);
         assertEquals(true, mission.getCompleted());
+    }
+
+    @Test
+    public void heroSizeTest() {
+        assertEquals(0, mission.heroSize());
+    }
+
+    @Test
+    public void addHeroTest() {
+        mission.addHero(new SuperHero());
+        assertEquals(1, mission.heroSize());
+    }
+
+    @Test
+    public void hasHeroTest() {
+        SuperHero hero = new SuperHero();
+        mission.addHero(hero);
+        assertTrue(mission.hasHero(hero.getId()));
+    }
+
+    @Test
+    public void removeHeroTest() {
+        SuperHero hero = new SuperHero();
+        mission.addHero(hero);
+        mission.removeHero(hero);
+        assertEquals(0, mission.heroSize());
     }
 
     @Test

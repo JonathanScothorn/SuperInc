@@ -25,7 +25,11 @@ public class Mission {
         MissionName = name;
         IsCompleted = false;
         IsDeleted = false;
-        Heroes = new ArrayList<SuperHero>();
+        Heroes = new ArrayList<>();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getMissionName() {
@@ -50,6 +54,27 @@ public class Mission {
 
     public void setCompleted(Boolean completed) {
         IsCompleted = completed;
+    }
+
+    public int heroSize() {
+        return Heroes.size();
+    }
+
+    public boolean hasHero(Long id) {
+        for (SuperHero h: Heroes) {
+            if (h.getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addHero(SuperHero hero) {
+        Heroes.add(hero);
+    }
+
+    public void removeHero(SuperHero hero) {
+        Heroes.remove(hero);
     }
 
     @Override
