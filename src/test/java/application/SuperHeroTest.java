@@ -85,6 +85,15 @@ public class SuperHeroTest {
     }
 
     @Test
+    public void getMissionsTest() {
+        Mission m1 = new Mission();
+        Mission m2 = new Mission();
+        hero.addMission(m1);
+        hero.addMission(m2);
+        assertTrue(hero.getMissions().contains(m1) && hero.getMissions().contains(m2));
+    }
+
+    @Test
     public void toStringTest() {
         String expected = "SuperHero[id=null, Firstname='"+firstName+"', Lastname='"+lastName+"', Superheroname='"+heroName+"']";
         assertEquals(expected, hero.toString());
