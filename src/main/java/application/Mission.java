@@ -1,10 +1,13 @@
 package application;
 
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Where(clause="is_deleted=false")
 public class Mission {
 
     @Id
@@ -12,6 +15,8 @@ public class Mission {
     private Long id;
     private String MissionName;
     private Boolean IsCompleted;
+
+    @Column(name="is_deleted")
     private Boolean IsDeleted;
 
     @ManyToMany(mappedBy = "Missions")
