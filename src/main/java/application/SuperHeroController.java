@@ -50,6 +50,34 @@ public class SuperHeroController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Update a superhero's information")
+    @PatchMapping("/updateHero/{id}")
+    public ResponseEntity<String> updateHero(@ApiParam(value = "New first name") @RequestParam(required = false) String firstName,
+                                             @ApiParam(value = "New last name") @RequestParam(required = false) String lastName,
+                                             @ApiParam(value = "New superhero name") @RequestParam(required = false) String heroName,
+                                             @ApiParam(value = "Hero's ID number") @PathVariable Long id) {
+
+        Optional<SuperHero> optH = heroRepository.findById(id);
+        SuperHero hero; 
+
+        if (optH.isPresent()) {
+            hero = optH.get();
+            if (!firstName.equals("")) {
+                hero.setFirstname(firstName);
+            }
+            if (!lastName.equals("")) {
+                hero.setLastname(lastName);
+            }
+            if (!heroName.equals("")) {
+                hero.setSuperheroname(heroName);
+            }
+            heroRepository.save(hero);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid hero ID");
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @ApiOperation(value = "Send a superhero on a mission")
     @PostMapping("/addMission")
     public ResponseEntity<String> addMission(@ApiParam(value = "Hero's ID number") @RequestParam Long heroId,
