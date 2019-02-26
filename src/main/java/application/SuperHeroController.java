@@ -58,7 +58,7 @@ public class SuperHeroController {
                                              @ApiParam(value = "Hero's ID number") @PathVariable Long id) {
 
         Optional<SuperHero> optH = heroRepository.findById(id);
-        SuperHero hero;
+        SuperHero hero; 
 
         if (optH.isPresent()) {
             hero = optH.get();
