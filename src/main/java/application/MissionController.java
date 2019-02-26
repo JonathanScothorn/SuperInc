@@ -11,10 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.swing.text.html.Option;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -24,20 +20,6 @@ public class MissionController {
     @Autowired
     private MissionRepository missionRepository;
 
-    @ApiOperation(value = "View create mission form")
-    @GetMapping(value = "/createMission", produces = "text/html")
-    public String createMissionForm(Model model) {
-        model.addAttribute("mission", new Mission());
-        return "createMissionForm";
-    }
-
-    @ApiOperation(value = "Submit create mission form")
-    @PostMapping(value = "/createMission", produces = "text/html")
-    public String createMission(@ModelAttribute Mission mission) {
-        missionRepository.save(mission);
-        return "createMission";
-    }
-
     @ApiOperation(value = "Create a new mission")
     @PostMapping("/createMissionCurl")
     public ResponseEntity<String> createMissionCurl(@RequestParam String name, Model model) {
@@ -45,21 +27,6 @@ public class MissionController {
         missionRepository.save(mission);
         model.addAttribute("mission", mission);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "View mission page")
-    @GetMapping(value = "/showMissions", produces = "text/html")
-    public String showMissions(Model model){
-
-        List<Mission> missions = new ArrayList<>();
-        Iterator<Mission> iterator = missionRepository.findAll().iterator();
-
-        while (iterator.hasNext()) {
-            missions.add(iterator.next());
-        }
-        model.addAttribute("missions", missions);
-
-        return "showMissions";
     }
 
     @ApiOperation(value = "View missions")

@@ -24,20 +24,6 @@ public class SuperHeroController {
     @Autowired
     private SuperHeroRepository heroRepository;
 
-    @ApiOperation(value = "View create hero form")
-    @GetMapping(value = "/createHero", produces = "text/html")
-    public String createHeroForm(Model model) {
-        model.addAttribute("superHero", new SuperHero());
-        return "createHeroForm";
-    }
-
-    @ApiOperation(value = "Submit create hero form")
-    @PostMapping(value = "/createHero", produces = "text/html")
-    public String createHero(@ModelAttribute SuperHero superHero) {
-        heroRepository.save(superHero);
-        return "createHero";
-    }
-
     @ApiOperation(value = "Create a new superhero")
     @PostMapping("/createHeroCurl")
     public ResponseEntity<String> createHeroCurl(@ApiParam(value = "Hero's first name") @RequestParam String firstName,
