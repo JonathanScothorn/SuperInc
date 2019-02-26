@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -59,6 +60,27 @@ public class MissionController {
         model.addAttribute("missions", missions);
 
         return "showMissions";
+    }
+
+    @ApiOperation(value = "View missions")
+    @GetMapping(value = "/viewMissions", produces = "application/json")
+    public ResponseEntity<Iterable<Mission>> viewMissions() {
+        return new ResponseEntity<>(missionRepository.findAll(), HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "View a mission")
+    @GetMapping(value = "/viewMission/{id}", produces = "application/json")
+    public ResponseEntity<Mission> viewMission(@ApiParam(value = "Mission's ID number") @PathVariable Long id) {
+
+        Optional<Mission> optM = missionRepository.findById(id);
+        Mission mission;
+
+        if (optM.isPresent()) {
+            mission = optM.get();
+        }else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid mission ID");
+        }
+        return new ResponseEntity<>(mission, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Update a mission, but may not soft delete here")
