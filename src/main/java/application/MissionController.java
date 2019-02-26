@@ -61,6 +61,30 @@ public class MissionController {
         return "showMissions";
     }
 
+    @ApiOperation(value = "Update a mission, but may not soft delete here")
+    @PatchMapping("/updateMission/{id})")
+    public ResponseEntity<String> updateMission(@ApiParam(value = "New mission name") @RequestParam(required = false) String missionName,
+                                                @ApiParam(value = "New mission completion state") @RequestParam(required = false) Boolean isCompleted,
+                                                @ApiParam(value = "Mission's ID number") @PathVariable Long id) {
+
+        Optional<Mission> optM = missionRepository.findById(id);
+        Mission mission;
+
+        if (optM.isPresent()) {
+            mission = optM.get();
+            if (missionName != null) {
+                mission.setMissionName(missionName);
+            }
+            if (isCompleted != null) {
+                mission.setCompleted(isCompleted);
+            }
+            missionRepository.save(mission);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid mission ID");
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @ApiOperation(value = "Soft delete a mission")
     @DeleteMapping("/deleteMission/{id}")
     public ResponseEntity<String> deleteMission(@ApiParam(value = "ID number of the mission to be deleted") @PathVariable Long id) {
