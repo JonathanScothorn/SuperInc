@@ -62,13 +62,13 @@ public class SuperHeroController {
 
         if (optH.isPresent()) {
             hero = optH.get();
-            if (!firstName.equals("")) {
+            if (firstName != null) {
                 hero.setFirstname(firstName);
             }
-            if (!lastName.equals("")) {
+            if (lastName != null) {
                 hero.setLastname(lastName);
             }
-            if (!heroName.equals("")) {
+            if (heroName != null) {
                 hero.setSuperheroname(heroName);
             }
             heroRepository.save(hero);
